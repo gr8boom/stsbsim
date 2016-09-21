@@ -1,0 +1,71 @@
+<div class="wrapper-comp-settings editor-with-buttons is-active" id="settings-tab">
+    <ul class="list-input settings-list">
+        <li class="field comp-setting-entry is-set">
+            <div class="wrapper-comp-setting">
+                <label class="label setting-label" for="stsbsim_title">Title</label>
+                <input class="input setting-input" id="stsbsim_title" value="{{ title }}" type="text">
+            </div>
+            <span class="tip setting-help">Defines title in the top of the task</span>
+        </li>
+        <li class="field comp-setting-entry is-set">
+            <div class="wrapper-comp-setting">
+                <label class="label setting-label" for="stsbsim_question">Question</label>
+                <input class="input setting-input" id="stsbsim_question" value="{{ question }}" type="text">
+            </div>
+            <span class="tip setting-help">Defines question text of the task</span>
+        </li>
+        <li class="field comp-setting-entry is-set">
+            <div class="wrapper-comp-setting">
+                <label class="label setting-label" for="stsbsim_data">Data</label>
+                <textarea class="input setting-input text text-editor">{{ data }}</textarea>
+            </div>
+            <span class="tip setting-help">The XML definition for MSC problem</span>
+        </li>
+        <li class="field comp-setting-entry is-set">
+            <div class="wrapper-comp-setting">
+                <label class="label setting-label" for="stsbsim_bgd_url">Background image URL</label>
+                <input class="input setting-input" id="stsbsim_bgd_url" value="{{ bgdUrl }}" type="text">
+            </div>
+            <span class="tip setting-help">Background image URL (png, swf, jpg). Uploaded to the course files can be used. Example: "/static/task1_background.swf".</span>
+        </li>        
+        <li class="field comp-setting-entry is-set">
+            <div class="wrapper-comp-setting">
+                <label class="label setting-label" for="stsbsim_answer">Answer</label>
+                <input class="input setting-input" id="stsbsim_answer" value="{{ answer }}" type="text">
+            </div>
+            <span class="tip setting-help">Correct answers, formated like [(block1answer|blockNanswer|arrow1answer|arrowNanswer)|(another_answer)|(4|"manual_input"|abc_id)] first of all answers for blocks. Case sensitive.</span>
+        </li>
+        <li class="field comp-setting-entry is-set">
+            <div class="wrapper-comp-setting">
+                <label class="label setting-label" for="stsbsim_weight">Problem Weight</label>
+                <input class="input setting-input" id="stsbsim_weight" value="{{ weight }}" type="text">
+            </div>
+            <span class="tip setting-help">Defines the number of points each problem is worth. If the value is not set, each response field in the problem is worth one point.</span>
+        </li>
+         <li class="field comp-setting-entry is-set">
+            <div class="wrapper-comp-setting">
+                <label class="label setting-label" for="stsbsim_min_percent">Percent to minimum score</label>
+                <input class="input setting-input" id="stsbsim_min_percent" value="{{ min_percent }}" type="text">
+            </div>
+            <span class="tip setting-help">Defines minimum number of points student can get if he spent all attempts.</span>
+        </li>
+        <li class="field comp-setting-entry is-set">
+            <div class="wrapper-comp-setting">
+                <label class="label setting-label" for="stsbsim_max_attempts">Amount of attempts</label>
+                <input class="input setting-input" id="stsbsim_max_attempts" value="{{ max_attempts }}" type="text">
+            </div>
+            <span class="tip setting-help">Defines the number attempts after what student will get only minimal score.</span>
+        </li>
+   </ul>
+    
+    <div class="xblock-actions">
+        <ul>
+            <li class="action-item">
+                <a href="#" class="button action-primary action-save">Save</a>
+            </li>
+            <li class="action-item">
+                <a href="#" class="button action-cancel">Cancel</a>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+/* CSS for StsbSimXBlock */
+
+.stsbsim_block .count {
+    font-weight: bold;
+}
+
+.stsbsim_block p {
+    cursor: pointer;
+}
+
+.stsbsim_embed_swf {
+    width: 800px;
+    height: 500px;
+    margin: auto;
+}
+
+.stsbsim_block {
+    text-align: center;
+}
+
+.stsbsim_question {
+	text-align: left;
+	width: 800px;
+	margin: auto;
+}
