@@ -12,6 +12,7 @@ function stsbsimXBlockInitEdit(runtime, element) {
             'answer': $('#stsbsim_answer').val(),
             'bgd_url': $('#stsbsim_bgd_url').val(),
             'title': $('#stsbsim_title').val(),
+            'weight': $('#stsbsim_weight').val(),
             'min_percent': $('#stsbsim_min_percent').val(),
             'max_attempts': $('#stsbsim_max_attempts').val(),
         };
