@@ -205,6 +205,7 @@
 				return;
 			}
 			workspace.showErrors(obj.result);
+			return 1;
 		}
 		private function xmlToArray(xml:XMLList){
 			var subnode:XML;

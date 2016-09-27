@@ -167,15 +167,15 @@ class StsbSimXBlock(XBlock):
             'question': self.question,
             #'uniqueId': str(random.random()).replace('.','_'),
             #'uniqueId': str(self.scope_ids.usage_id).replace('.','_'),
-            'uniqueId': self._get_unique_id(),
+            'uniqueId': 's'+self._get_unique_id(),
             #'bgdUrl': '36'+self.runtime.local_resource_url(self, 'public/swf/sim.swf'),
             'bgdUrl': self.bgd_url,
             #StaticContent.get_base_url_path_for_course_assets(self.location),
             #settings.COURSE_KEY_PATTERN+
             'finish': 1 if self.finish else 0,
             'currentAnswer': self.current_answer,
-            'score': self._get_score(1 if self.finish else 0),
-            'maxScore': str(self.weight) + ' баллов',
+            'score': self._cute_float(self._get_score(1 if self.finish else 0)),
+            'maxScore': self._cute_float(self.weight) + ' баллов',
             'attempts': self.attempts,
             'maxAttempts': str(self.max_attempts) + '+ попыток',
         }
@@ -305,8 +305,10 @@ class StsbSimXBlock(XBlock):
     @XBlock.json_handler
     def get_check(self, data, suffix=''):
         check = self._checkAnswer(data['answer'])
-        return {"finish": check['finish'], "score": self._get_score(1 if check['finish']==1 else 0), "result": check['result']}
+        return {"finish": check['finish'], "score": self._cute_float(self._get_score(1 if check['finish']==1 else 0)),  "attempts": self.attempts, "result": check['result']}
         
+    def _cute_float(self, x):
+        return ('%f' % x).rstrip('0').rstrip('.')
 
     def _get_unique_id(self):
         try:

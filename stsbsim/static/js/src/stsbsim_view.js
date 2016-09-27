@@ -16,30 +16,28 @@ if (typeof as_check === 'undefined'){
 
 }
 
-function stsbsimXBlockInitView(runtime, element) {
-    $('.count', element).bind('click', function(){
-        var answ = $('.stsbsim_embed_swf', element)[0].js_getAnswer();
-        alert('click '+ answ);
-    });
+function stsbsimXBlockInitView(runtime, xblock) {
 
-    var embed = $('.stsbsim_embed_swf', element)[0];
-    embed.getCheck = function(answer){
+    var swf = $('.stsbsim_embed_swf', xblock)[0];
+
+    swf.getCheck = function(answer){
         $.ajax({
             type: "POST",
-            url: runtime.handlerUrl(element, 'get_check'),
+            url: runtime.handlerUrl(xblock, 'get_check'),
             data: JSON.stringify({"answer": answer}),
-            success: embed.onGetCheck
+            success: swf.onGetCheck
         });
     }    
-    embed.onGetCheck = function(result){
-        try{
-            $('.stsbsim_score', embed.parent)[0].innerHTML = result.score;
-            embed.js_onGetCheck(result);
+    swf.onGetCheck = function(result){
+        try{            
+            $('.stsbsim_score', xblock)[0].innerHTML = result.score;
+            $('.stsbsim_attempts', xblock)[0].innerHTML = result.attempts;
+            swf.js_onGetCheck(result);
         }catch(err){
             
         }        
     }
 }
-$(document).ready(function() {
-//    alert('doc ready');
-});
+/*$(document).ready(function() {
+    alert('doc ready');
+});*/
