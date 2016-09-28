@@ -232,8 +232,8 @@ class StsbSimXBlock(XBlock):
         The saving handler.
         '''
         self.display_name = data['title']
-        self.weight = data['weight']
-        self.min_percent = data['min_percent']
+        self.weight = data['weight'].replace(',','.')
+        self.min_percent = data['min_percent'].replace(',','.')
         self.max_attempts = data['max_attempts']
         self.question = data['question']
         d = data['data']
