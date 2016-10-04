@@ -325,9 +325,12 @@ class StsbSimXBlock(XBlock):
         return self.weight*(1 - min(self.attempts-delta, self.max_attempts)/self.max_attempts*(1 - (self.min_percent)/100))
 
     def _get_swf_crutch(self):
-        swf = str(self.runtime.local_resource_url(self, 'public/swf/sim.swf'))
-        swf = swf.replace('//localhost/','/')   #dont know why but our lms server generates "//localhost/xblock....." 
-        if(swf.find('/static/') > -1):
+        try:
+            swf = str(self.runtime.local_resource_url(self, 'public/swf/sim.swf'))
+            swf = swf.replace('//localhost/','/')   #dont know why but our lms server generates "//localhost/xblock....." 
+            if(swf.find('/static/') > -1):
+                swf = '/xblock/resource/stsbsim/public/swf/sim.swf'
+        except:
             swf = '/xblock/resource/stsbsim/public/swf/sim.swf'
         return swf
 
