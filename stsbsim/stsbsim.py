@@ -161,8 +161,9 @@ class StsbSimXBlock(XBlock):
             int(self.weight))+'баллов') if self.weight else ''
         context = {
             'title': self.display_name,
-            'swfUrl': self._get_swf_crutch(),
-            'oldUrl': self.runtime.local_resource_url(self, 'public/swf/sim.swf'),
+            'swfUrl': '/xblock/resource/stsbsim/public/swf/sim.swf',#self._get_swf_crutch(),
+            'oldUrl': 'none',
+            #'oldUrl': self.runtime.local_resource_url(self, 'public/swf/sim.swf'),
             'data': self.data,
             'question': self.question,
             #'uniqueId': str(random.random()).replace('.','_'),
@@ -327,6 +328,7 @@ class StsbSimXBlock(XBlock):
     def _get_swf_crutch(self):
         try:
             swf = str(self.runtime.local_resource_url(self, 'public/swf/sim.swf'))
+            ttt = 1/0
             swf = swf.replace('//localhost/','/')   #dont know why but our lms server generates "//localhost/xblock....." 
             if(swf.find('/static/') > -1):
                 swf = '/xblock/resource/stsbsim/public/swf/sim.swf'
