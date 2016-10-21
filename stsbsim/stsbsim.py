@@ -288,7 +288,7 @@ class StsbSimXBlock(XBlock):
                 if(len(v) == len(answer)):
                     if(self.restart != True):
                         self.finish = True
-                        self.runtime.publish(self, "grade", {"value": self._get_score(), "max_value": 1.0 })#self._get_score()
+                        self.runtime.publish(self, "grade", {"value": self._get_score(), "max_value": self.weight })
                     finish = 1
             if(best == 0 or curRecord > best):
                 best = curRecord
