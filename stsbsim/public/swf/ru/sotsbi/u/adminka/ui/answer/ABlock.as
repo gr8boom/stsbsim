@@ -19,7 +19,7 @@
 		public function ABlock(a:Object = null) {
 			_defAttr = {
 				c: uint('0xAAAAAA'),
-				lbl: '',
+				lbl: null,
 				x: 20,
 				y: 20,
 				w: 120,
@@ -28,6 +28,7 @@
 				chars:  'a-zA-Zа-яА-Я0-9',
 				brdr:  1
 			};
+			_value = null;
 			attributes = UObject.merge(_defAttr, a);
 			inputOk = false;
 			textTF.multiline=true;
@@ -58,6 +59,9 @@
 				selected = false;
 				dispatchEvent(new Event(Event.CLEAR, true));
 			}else{
+				if(_value == null){
+					this.text = '';
+				}
 				selected = true;
 				dispatchEvent(new Event(Event.SELECT, true));
 			}
@@ -89,8 +93,8 @@
 				colorTrans.color=a['c'];
 				bgd.transform.colorTransform=colorTrans;
 			}
-			if (a['txt']) {
-//				textTF.text=a['txt'];
+			if (a['lbl']) {
+				this.text = a['lbl'];
 			}
 			if (a['x']) {
 				var tx:int=int(a['x']);
@@ -152,13 +156,20 @@
 			}
 			colorTrans.color = c;
 			bgd.transform.colorTransform = colorTrans;
-		}				
+		}
+		public function showDefaultLabel() {
+			trace('_attributes[lbl]='+_attributes['lbl']);
+			this.text = _attributes['lbl'];
+		}
 		public function get selected() {
 			return _selected;
 		}
 		public function set selected(b:Boolean) {
 			_selected=b;
 			updateState();
+			if(b == false && this._value == null){
+				this.showDefaultLabel();
+			}
 		}
 		public function get wrong() {
 			return _wrong;

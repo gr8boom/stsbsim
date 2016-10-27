@@ -157,7 +157,7 @@ class StsbSimXBlock(XBlock):
         The primary view of the StsbSimXBlock, shown to students
         when viewing courses.
         '''
-        score_string = ('({0}/{1})'.format(self._get_score(0), #use 0 to get score on net attempt
+        score_string = ('({}/{})'.format(self._get_score(0), #use 0 to get score on net attempt
             int(self.weight))+'баллов') if self.weight else ''
         context = {
             'title': self.display_name,
@@ -223,6 +223,10 @@ class StsbSimXBlock(XBlock):
         Access the problem's max score
         """
         return self.weight
+
+    def rescore_problem(self):
+        self.runtime.publish(self, "grade", {"value": self._get_score(), "max_value": self.weight })
+    
 
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.

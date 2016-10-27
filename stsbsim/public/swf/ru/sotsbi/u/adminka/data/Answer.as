@@ -92,7 +92,7 @@
 		}
 
 		public function setBlock(n:uint, value:String) {
-			_blocks[n]=value;
+			_blocks[n] = value;
 		}
 		
 		public function getBlock(n:uint) {

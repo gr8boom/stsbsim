@@ -66,9 +66,9 @@
                 <B lbl="C" w="110" id="blc" txt="Block C Block C Block C Block C Block C Block C "/>
             </M>
             <BLOCKS>
-                <BLOCK lbl="Block type" x="100" y="100" w="100" h="30" c="0x027BF4" />
-                <BLOCK lbl="Block type" x="300" y="100" w="100" h="30" c="0x027BF4" />
-                <BLOCK lbl="Block type" x="500" y="100" w="100" h="30" c="0x027BF4" />
+                <BLOCK lbl="Block type1" x="100" y="100" w="100" h="30" c="0x027BF4" />
+                <BLOCK lbl="Block type2" x="300" y="100" w="100" h="30" c="0x027BF4" />
+                <BLOCK lbl="Block type3" x="500" y="100" w="100" h="30" c="0x027BF4" />
             </BLOCKS>
             <LINES y="150" x1="150" x2="350" x3="550"/>
 			]]>;
@@ -225,7 +225,7 @@
 							a['y']=y0+Number(subnode.attribute('y'));
 							a['w']=Number(subnode.attribute('w'));
 							a['h']=Number(subnode.attribute('h'));
-							a['label']=String(subnode.attribute('label'));
+							a['lbl']=String(subnode.attribute('lbl'));
 							a['c']=Number(subnode.attribute('c'));
 							a['manual']=uint(subnode.attribute('len'))>0;
 							a['len'] = uint(subnode.attribute('len'));

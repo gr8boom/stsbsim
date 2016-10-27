@@ -89,9 +89,6 @@
 		private function drawAnswer() {
 			var answerLen:uint = answer.length;
 			var nBlocks = blocks.length;
-			for each(var block:MovieClip in blocks) {
-				block.text = '';
-			}
 			for each(var arrow:MovieClip in arrows){
 				arrowsContainer.removeChild(arrow);
 			}
@@ -161,36 +158,40 @@
 		}
 		
 		public function setBlock(value:String) {
-			trace('setBlock ' + value );
 			var n:uint;
 			var r:Object;
 			if (selectedBlock) {
-				if (value.charAt(0) == '"') {
-					selectedBlock.value = value;					
-					selectedBlock.text = value.substr(1,value.length-2);
-				}else {
-//					Dbg.trc(_relations.asArray);
-//					trace('val = ' + value);//*/
-					r = _relations.getRelationById(value);
-//					Dbg.trc(r);
-//					trace('eof trc '+r.length);//*/
-/*					for (var k:String in r) {
-						trace('rel[' + k + ']=' + r[k]);
-					}*/
-					if (selectedBlock.manualInput) {
-						selectedBlock.value = '"'+r['txt']+'"';	
-					}else{
-						selectedBlock.value = r['id'];
+				if(value){
+					if (value.charAt(0) == '"') {
+						selectedBlock.value = value;					
+						selectedBlock.text = value.substr(1,value.length-2);
+					}else {
+		//					Dbg.trc(_relations.asArray);
+		//					trace('val = ' + value);//*/
+						r = _relations.getRelationById(value);
+		//					Dbg.trc(r);
+		//					trace('eof trc '+r.length);//*/
+		/*					for (var k:String in r) {
+							trace('rel[' + k + ']=' + r[k]);
+						}*/
+						if (selectedBlock.manualInput) {
+							selectedBlock.value = '"'+r['txt']+'"';	
+						}else{
+							selectedBlock.value = r['id'];
+						}
+						trace('selectedBlock.value '+selectedBlock.value);
+						try{
+							selectedBlock.text = r['txt'];	
+						}catch(err:Error){
+							selectedBlock.text = '';	
+						}
 					}
-					try{
-						selectedBlock.text = r['txt'];	
-					}catch(err:Error){
-						selectedBlock.text = '';	
-					}
+					trace('index ='+blocks.indexOf(selectedBlock))
+					answer.setBlock(blocks.indexOf(selectedBlock), value);
+					hideNeedMore();
+				}else{
+					selectedBlock.showDefaultLabel();
 				}
-				trace('index ='+blocks.indexOf(selectedBlock))
-				answer.setBlock(blocks.indexOf(selectedBlock), value);
-				hideNeedMore();
 			}
 		}
 		public function getAnswerSting() {
@@ -199,14 +200,17 @@
 		private function selectHnd(e:Event) {
 			var k:String;
 			if(e.target is ABlock){
+				selectedBlock = null;
 				var block:ABlock;
 				for (k in blocks) {
 					block = blocks[k];
 					if (e.target == block) {
-						selectedBlock = block;
-					}else {
-						block.selected=false;
-					}
+						if(block.selected){
+							selectedBlock = block;
+						}
+					}else{
+						block.selected = false;
+					}						
 				}
 				var topChild = blocksContainer.getChildAt(blocksContainer.numChildren-1);
 				blocksContainer.swapChildren(e.target as DisplayObject, topChild);
