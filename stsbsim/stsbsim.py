@@ -7,7 +7,7 @@ import pkg_resources
 import re
 import random
 import textwrap
-
+import time
 
 from xblock.core import XBlock
 from xblock.fields import Scope, String, Integer, Boolean, Float
@@ -23,6 +23,7 @@ class StsbSimXBlock(XBlock):
     '''
     icon_class = "other"
     has_score = True
+    always_recalculate_grades = True
     '''
     Fields are defined on the class.  You can access them in your code as
     self.<fieldname>.
@@ -121,16 +122,30 @@ class StsbSimXBlock(XBlock):
         scope=Scope.user_state,
         default=False
     )
-    score = Boolean(
+    score = Float(
         help="Users's score",
         scope=Scope.user_state,
-        default=1
+        default=0
     )
     restart = Boolean(
         help="Restarted",
         scope=Scope.user_state,
         default=False
     )
+    '''
+    One more crutch
+    '''    
+    need_rescore_uts = Integer(
+        help="UTS for rescoring",
+        scope=Scope.settings,
+        default=0
+    )    
+    last_rescore_uts = Integer(
+        help="UTS for rescoring",
+        scope=Scope.user_state,
+        default=0
+    )
+
     '''
     Util functions
     '''
@@ -154,6 +169,14 @@ class StsbSimXBlock(XBlock):
     '''
     def student_view(self, context=None):
         '''
+        One more crutch, it rescore task if it was not rescored
+        '''
+        if(self.finish and (self.need_rescore_uts > 0) and (self.need_rescore_uts > self.last_rescore_uts)):
+            uts = int(time.time())
+            self.rescore_problem()
+            self.last_rescore_uts = uts
+
+        '''
         The primary view of the StsbSimXBlock, shown to students
         when viewing courses.
         '''
@@ -162,6 +185,7 @@ class StsbSimXBlock(XBlock):
         context = {
             'title': self.display_name,
             'swfUrl': '/xblock/resource/stsbsim/public/swf/sim.swf',#self._get_swf_crutch(),
+            #'swfUrl': self.runtime.local_resource_url(self, 'public/swf/sim.swf'),
             'oldUrl': 'none',
             #'oldUrl': self.runtime.local_resource_url(self, 'public/swf/sim.swf'),
             'data': self.data,
@@ -204,6 +228,7 @@ class StsbSimXBlock(XBlock):
             'answer': self.answer,
             'question': self.question,
             'bgdUrl': self.bgd_url,
+            'rescoreUts': self.need_rescore_uts,
         }
         html = self.render_template('static/html/stsbsim_edit.html', context)
         
@@ -225,7 +250,12 @@ class StsbSimXBlock(XBlock):
         return self.weight
 
     def rescore_problem(self):
-        self.runtime.publish(self, "grade", {"value": self._get_score(), "max_value": self.weight })
+        """
+        Access the problem's rescore function
+        """
+        self.score = self._get_score() if self.finish else 0
+        self.runtime.publish(self, "grade", {"value": self.score, "max_value": self.weight })
+        return self.score
     
 
     # TO-DO: change this handler to perform your own actions.  You may need more
@@ -249,6 +279,11 @@ class StsbSimXBlock(XBlock):
         self.answer = data['answer']
         self.bgd_url = data['bgd_url']
         self.nblocks = data['data'].lower().count('<block ')
+        '''
+        One more crutch
+        '''
+        self.need_rescore_uts = data['rescore_uts']
+
         return {
             'result': 'success',
         }
@@ -292,7 +327,8 @@ class StsbSimXBlock(XBlock):
                 if(len(v) == len(answer)):
                     if(self.restart != True):
                         self.finish = True
-                        self.runtime.publish(self, "grade", {"value": self._get_score(), "max_value": self.weight })
+                        self.rescore_problem()
+                        #self.runtime.publish(self, "grade", {"value": self._get_score(), "max_value": self.weight })
                     finish = 1
             if(best == 0 or curRecord > best):
                 best = curRecord

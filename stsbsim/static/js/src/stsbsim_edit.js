@@ -15,6 +15,7 @@ function stsbsimXBlockInitEdit(runtime, element) {
             'weight': $('#stsbsim_weight').val(),
             'min_percent': $('#stsbsim_min_percent').val(),
             'max_attempts': $('#stsbsim_max_attempts').val(),
+            'rescore_uts': $('#stsbsim_rescore_uts').val(),
         };
         
         try { //there is no function notify in workbench, thats why we use "try"
